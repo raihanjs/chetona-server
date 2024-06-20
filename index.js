@@ -3,7 +3,9 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // ========================Middlewares========================
+app.use(express.json());
 require("dotenv").config();
+// ========================Middlewares========================
 app.get("/", (req, res) => {
   res.send("Welcome to ChetonaProkashon Server");
 });
@@ -24,6 +26,19 @@ async function run() {
   try {
     const database = client.db("chetona");
     const promotions = database.collection("promotions");
+
+    // ==========================Promotions==========================
+    // add a promotion
+    app.post("/promotions", async (req, res) => {
+      const promotion = req.body;
+      const result = await promotions.insertOne(promotion);
+      res.send(result);
+    });
+    // get all promotions
+    app.get("/promotions", async (req, res) => {
+      const result = await promotions.findOne();
+      res.send(result);
+    });
   } finally {
   }
 }
