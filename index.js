@@ -36,6 +36,13 @@ async function run() {
       const result = await promotions.insertOne(promotion);
       res.send(result);
     });
+    // update a promotion
+    app.patch("/promotions/:id", async (req, res) => {
+      const id = { _id: new ObjectId(req.params.id) };
+      delete req.body._id;
+      const result = await promotions.updateOne(id, { $set: req.body });
+      res.send(result);
+    });
     // get all promotions
     app.get("/promotions", async (req, res) => {
       const result = await promotions.find().toArray();
