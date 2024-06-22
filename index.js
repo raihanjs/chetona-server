@@ -55,6 +55,12 @@ async function run() {
       const result = await promotions.findOne(query);
       res.send(result);
     });
+    // delete a promotion by id
+    app.delete("/promotions/:id", async (req, res) => {
+      const query = { _id: new ObjectId(req.params.id) };
+      const result = await promotions.deleteOne(query);
+      res.send(result);
+    });
   } finally {
   }
 }
